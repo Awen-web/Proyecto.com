@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Final: Guía Práctica de Gestión</title>
+    <!-- FontAwesome 6 para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Aislamiento total de estilos para Moodle */
+        .moodle-activity-container {
+            font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif !important;
+            background-color: #f8fafc;
+            color: #1e293b;
+            max-width: 1000px;
+            margin: 15px auto;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+
+        .moodle-activity-container * {
+            box-sizing: border-box;
+        }
+
+        /* Banner de Encabezado Corporativo (Teal & Coral Gradiente) */
+        .pf-header {
+            background: linear-gradient(135deg, #006064 0%, #00838F 55%, #FF6F61 100%);
+            color: #ffffff;
+            padding: 30px 24px;
+            position: relative;
+        }
+
+        .pf-header .badge-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.22);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            backdrop-filter: blur(4px);
+        }
+
+        .pf-header h1 {
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            margin: 0 0 8px 0 !important;
+            color: #ffffff !important;
+            line-height: 1.25 !important;
+        }
+
+        .pf-header p {
+            font-size: 13.5px !important;
+            margin: 0 !important;
+            opacity: 0.95;
+            color: #e0f7fa !important;
+            max-width: 850px;
+        }
+
+        /* Callout de Instrucciones */
+        .pf-instruction {
+            background-color: #e0f7fa;
+            border-bottom: 1px solid #b2ebf2;
+            padding: 14px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 13px;
+            color: #006064;
+        }
+
+        .pf-instruction i {
+            font-size: 18px;
+            color: #00838F;
+            margin-top: 2px;
+        }
+
+        /* Cuerpo principal del formulario */
+        .pf-body {
+            padding: 24px;
+        }
+
+        .section-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .section-card:hover {
+            border-color: #b2ebf2;
+            box-shadow: 0 4px 14px rgba(0, 131, 143, 0.06);
+        }
+
+        .section-title {
+            font-size: 16.5px !important;
+            font-weight: 700 !important;
+            color: #00838F !important;
+            margin: 0 0 16px 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #e0f7fa;
+            padding-bottom: 10px;
+        }
+
+        .section-title span.title-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title .step-badge {
+            background-color: #f1f5f9;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .pedagogic-tip {
+            background-color: #fff8f6;
+            border-left: 4px solid #FF6F61;
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            font-size: 12px;
+            color: #9a3412;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .input-group label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .input-group p.subtext {
+            font-size: 11px;
+            color: #64748b;
+            margin: 0 0 4px 0;
+        }
+
+        .moodle-activity-container textarea,
+        .moodle-activity-container input[type="text"],
+        .moodle-activity-container select {
+            width: 100% !important;
+            padding: 10px 12px !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            font-size: 13px !important;
+            font-family: inherit !important;
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+            outline: none !important;
+            transition: all 0.2s ease;
+        }
+
+        .moodle-activity-container textarea:focus,
+        .moodle-activity-container input[type="text"]:focus,
+        .moodle-activity-container select:focus {
+            border-color: #00838F !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(0, 131, 143, 0.12) !important;
+        }
+
+        .moodle-activity-container textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Tabla RACI y Tablas Personalizadas */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            background: #ffffff;
+        }
+
+        .custom-table th {
+            background-color: #e0f7fa;
+            color: #006064;
+            font-weight: 700;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid #b2ebf2;
+            white-space: nowrap;
+        }
+
+        .custom-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .custom-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .custom-table input[type="text"] {
+            padding: 6px 8px !important;
+            font-size: 12px !important;
+        }
+
+        /* Barra de Acciones y Botones */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 10px;
+        }
+
+        .btn-print {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-print:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #00838F 0%, #00ACC1 50%, #FF6F61 100%);
+            border: none;
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(0, 131, 143, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 131, 143, 0.35);
+        }
+
+        /* Modal de confirmación */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.65);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 16px;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-card {
+            background: #ffffff;
+            padding: 28px 24px;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 30px -5px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.25s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Reglas de Impresión PDF */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff !important; padding: 0 !important; }
+            .moodle-activity-container { border: none !important; box-shadow: none !important; max-width: 100% !important; margin: 0 !important; }
+            .section-card { page-break-inside: avoid; border: 1px solid #cbd5e1 !important; margin-bottom: 16px !important; }
+            textarea, input[type="text"], select { background: #ffffff !important; border: 1px solid #94a3b8 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="moodle-activity-container">
+    
+    <!-- Encabezado Principal del Proyecto Final -->
+    <div class="pf-header">
+        <span class="badge-tag"><i class="fas fa-graduation-cap"></i> Gestión de Proyectos ADIP G2</span>
+        <h1>Proyecto Final: Guía Práctica de Gestión</h1>
+        <p><b>Objetivo específico:</b> Aplicar los conocimientos adquiridos en el curso para desarrollar un proyecto completo, integrando la definición del alcance, planificación de tiempo, costo y calidad, gestión de talento humano, análisis de riesgos, propuesta formal y lineamientos de comunicación, seguimiento y contratación.</p>
+    </div>
+
+    <!-- Instrucciones Generales -->
+    <div class="pf-instruction">
+        <i class="fas fa-list-check"></i>
+        <div>
+            <b>Instrucciones Generales:</b> Lee y desarrolla de forma completa y ordenada cada una de las actividades. Selecciona una iniciativa de tu interés (educativo, social, institucional, tecnológico o laboral) y realiza una simulación guiada de su gestión aplicando los conceptos, procesos y herramientas revisados durante el curso.
+        </div>
+    </div>
+
+    <!-- Cuerpo con el Formulario Integrado de las 7 Actividades -->
+    <div class="pf-body">
+        <form id="proyectoFinalForm" onsubmit="event.preventDefault();">
+
+            <!-- ACTIVIDAD 1 -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="title-text"><i class="fas fa-bullseye" style="color: #FF6F61;"></i> Actividad 1: Selección del Proyecto y Formulación de Objetivos</span>
+                    <span class="step-badge">Paso 1 de 7</span>
+                </div>
+
+                <div class="pedagogic-tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><b>Tip pedagógico:</b> Recuerda utilizar verbos en infinitivo (ej. desarrollar, implementar, diseñar, evaluar) al formular tus objetivos.</span>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-rocket" style="color: #00838F;"></i> Descripción del Proyecto Seleccionado</label>
+                    <p class="subtext">Elige y describe brevemente una iniciativa de tu interés (educativo, social, institucional, tecnológico o laboral).</p>
+                    <textarea rows="3" placeholder="Ej. Implementación de una plataforma web educativa para capacitación de personal docente..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-flag-checkered" style="color: #FF6F61;"></i> Objetivo General del Proyecto</label>
+                    <p class="subtext">Redacta el objetivo principal integrando Verbo en infinitivo + ¿Qué? + ¿Para qué?.</p>
+                    <input type="text" placeholder="Ej. Desarrollar una plataforma e-learning institucional para automatizar la capacitación docente durante el ciclo 2026...">
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-tasks" style="color: #00838F;"></i> Objetivos Específicos (Mínimo 3)</label>
+                    <p class="subtext">Redacta al menos tres objetivos específicos o secundarios estructurados.</p>
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+                        <input type="text" placeholder="Específico 1: Diseñar la arquitectura técnica de la plataforma en 8 semanas...">
+                        <input type="text" placeholder="Específico 2: Elaborar 5 módulos instruccionales interactivos para el personal...">
+                        <input type="text" placeholder="Específico 3: Realizar pruebas piloto con 50 usuarios para validar la usabilidad...">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-check-double" style="color: #FF6F61;"></i> Evaluación y Justificación de Objetivos</label>
+                    <p class="subtext">Evalúa y justifica si los objetivos redactados son claros, coherentes y alcanzables (Criterios SMART).</p>
+                    <textarea rows="3" placeholder="Explica por qué los objetivos cumplen con ser medibles, alcanzables y acordes al contexto..."></textarea>
+                </div>
+            </div>
+
+            <!-- ACTIVIDAD 2 -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="title-text"><i class="fas fa-layer-group" style="color: #00838F;"></i> Actividad 2: Comprensión del Proyecto y la Triple Restricción</span>
+                    <span class="step-badge">Paso 2 de 7</span>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-certificate" style="color: #00838F;"></i> Justificación Formal como Proyecto</label>
+                    <p class="subtext">Justifica por qué la iniciativa seleccionada califica formalmente como un proyecto (temporalidad, resultado único, recursos asignados).</p>
+                    <textarea rows="3" placeholder="Argumenta el carácter temporal y el entregables único de esta iniciativa..."></textarea>
+                </div>
+
+                <p style="font-size: 13px; font-weight: 700; color: #006064; margin: 16px 0 8px 0;">Análisis de Preguntas Clave sobre la Triple Restricción:</p>
+
+                <div class="grid-3">
+                    <div class="input-group">
+                        <label><i class="fas fa-clock" style="color: #00838F;"></i> ¿Cuánto tiempo durará? (Tiempo)</label>
+                        <p class="subtext">Duración estimada del cronograma.</p>
+                        <input type="text" placeholder="Ej. 6 meses (24 semanas)...">
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-coins" style="color: #FF6F61;"></i> ¿Qué recursos/presupuesto? (Costo)</label>
+                        <p class="subtext">Recursos financieros y materiales.</p>
+                        <input type="text" placeholder="Ej. Presupuesto estimado de $150,000 MXN...">
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-box-open" style="color: #00838F;"></i> ¿Qué incluye y excluye? (Calidad)</label>
+                        <p class="subtext">Límites del producto final.</p>
+                        <input type="text" placeholder="Ej. Incluye plataforma y 5 cursos. Excluye soporte 24/7...">
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top: 10px;">
+                    <label><i class="fas fa-scale-balanced" style="color: #FF6F61;"></i> Argumentación de la Restricción Prioritaria</label>
+                    <p class="subtext">Argumenta y justifica cuál de las tres restricciones (Tiempo, Costo o Calidad) es prioritaria para tu proyecto y por qué.</p>
+                    <textarea rows="3" placeholder="Ej. La calidad es prioritaria dado que la experiencia de usuario determinará la adopción institucional..."></textarea>
+                </div>
+            </div>
+
+            <!-- ACTIVIDAD 3 -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="title-text"><i class="fas fa-users-cog" style="color: #FF6F61;"></i> Actividad 3: Rol del Administrador y Matriz RACI</span>
+                    <span class="step-badge">Paso 3 de 7</span>
+                </div>
+
+                <div class="pedagogic-tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><b>Tip:</b> Reflexiona sobre el tipo de patrocinadores, expertos y habilidades técnicas requeridos para la ejecución exitosa de tu proyecto. Leyenda RACI: <b>R</b>=Responsable, <b>A</b>=Aprobador, <b>C</b>=Consultado, <b>I</b>=Informado.</span>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label><i class="fas fa-user-check" style="color: #00838F;"></i> Funciones como Administrador/a del Proyecto</label>
+                        <textarea rows="3" placeholder="Menciona tus funciones de coordinación, monitoreo y comunicación..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-brain" style="color: #FF6F61;"></i> Competencias y Habilidades Directivas Requeridas</label>
+                        <textarea rows="3" placeholder="Ej. Liderazgo transformacional, gestión de conflictos, comunicación asertiva..."></textarea>
+                    </div>
+                </div>
+
+                <p style="font-size: 13px; font-weight: 700; color: #006064; margin: 16px 0 8px 0;">Matriz RACI del Proyecto (Editable):</p>
+
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Actividad / Persona</th>
+                                <th style="text-align: center;">Patrocinador</th>
+                                <th style="text-align: center;">Líder de Proyecto</th>
+                                <th style="text-align: center;">Especialista Técnico</th>
+                                <th style="text-align: center;">Analista de Calidad</th>
+                                <th style="text-align: center;">Cliente / Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>Definición del Alcance</b></td>
+                                <td style="text-align: center;"><input type="text" value="A (Aprobador)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="R (Responsable)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="C (Consultado)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="I (Informado)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="C (Consultado)" style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Desarrollo de Entregables</b></td>
+                                <td style="text-align: center;"><input type="text" value="I (Informado)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="A (Aprobador)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="R (Responsable)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="C (Consultado)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="I (Informado)" style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Pruebas y Control de Calidad</b></td>
+                                <td style="text-align: center;"><input type="text" value="I (Informado)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="A (Aprobador)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="R (Responsable)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="R (Responsable)" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" value="C (Consultado)" style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" placeholder="Actividad Adicional 1..." style="font-weight: 600;"></td>
+                                <td style="text-align: center;"><input type="text" placeholder="R / A / C / I" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" placeholder="R / A / C / I" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" placeholder="R / A / C / I" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" placeholder="R / A / C / I" style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="text" placeholder="R / A / C / I" style="text-align: center;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ACTIVIDAD 4 -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="title-text"><i class="fas fa-sitemap" style="color: #00838F;"></i> Actividad 4: Ciclo de Vida y Delimitación del Alcance</span>
+                    <span class="step-badge">Paso 4 de 7</span>
+                </div>
+
+                <div class="pedagogic-tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><b>Tip:</b> Aplica las buenas prácticas del cuerpo de conocimiento del PMBOK® para fundamentar la gestión del alcance.</span>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-sync" style="color: #00838F;"></i> Fases del Ciclo de Vida</label>
+                    <p class="subtext">Explica brevemente las 5 fases que atravesará el proyecto:</p>
+                    <textarea rows="4" placeholder="1. Inicio: Acta de constitución...&#10;2. Planificación: EDT y cronograma...&#10;3. Ejecución: Desarrollo técnico...&#10;4. Monitoreo: Control de métricas...&#10;5. Cierre: Aceptación y contrato..."></textarea>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label><i class="fas fa-check-circle" style="color: #00838F;"></i> Lo que INCLUYE el Proyecto</label>
+                        <textarea rows="3" placeholder="Especifica los componentes, módulos y tareas dentro del alcance..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-times-circle" style="color: #FF6F61;"></i> Lo que EXCLUYE el Proyecto</label>
+                        <textarea rows="3" placeholder="Especifica las exclusiones explícitas para evitar sobrecostos..."></textarea>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-balance-scale" style="color: #00838F;"></i> Alcance del Proyecto vs Alcance del Producto</label>
+                    <textarea rows="3" placeholder="Anota las diferencias fundamentales (Trabajo necesario para entregar vs Características/funciones del producto final)..."></textarea>
+                </div>
+            </div>
+
+            <!-- ACTIVIDAD 5 -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="title-text"><i class="fas fa-cogs" style="color: #FF6F61;"></i> Actividad 5: Planificación Integral del Proyecto</span>
+                    <span class="step-badge">Paso 5 de 7</span>
+                </div>
+
+                <div class="pedagogic-tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span><b>Tip de secuenciación:</b> Asegúrate de establecer una secuencia lógica; no es posible iniciar una actividad sin concluir sus precedentes obligatorias.</span>
+                </div>
+
+                <p style="font-size: 13.5px; font-weight: 700; color: #00838F; margin-bottom: 8px;">Parte 1. Gestión del Tiempo y Cronograma:</p>
+                
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label><i class="fas fa-list-ol" style="color: #00838F;"></i> Definición y Secuenciación de Actividades</label>
+                        <textarea rows="3" placeholder="Lista actividades e identifica precedentes obligatorias..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-hourglass-half" style="color: #FF6F61;"></i> Estimación de Recursos y Duración</label>
+                        <textarea rows="3" placeholder="Estima recursos requeridos y la duración de cada tarea..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-calendar-check" style="color: #00838F;"></i> Agenda y Programación de Hitos</label>
+                        <textarea rows="3" placeholder="Define los hitos principales o puntos de control clave..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-sliders-h" style="color: #FF6F61;"></i> Procedimiento de Control de Cambios</label>
+                        <textarea rows="3" placeholder="Explica cómo se evaluarán y aprobarán cambios en la línea base..."></textarea>
+                    </div>
+                </div>
+
+                <p style="font-size: 13.5px; font-weight: 700; color: #00838F; margin: 18px 0 8px 0;">Parte 2. Costo, Calidad, Recursos y Riesgos:</p>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label><i class="fas fa-calculator" style="color: #00838F;"></i> Rubros de Costo (Directos e Indirectos)</label>
+                        <textarea rows="3" placeholder="Identifica costos directos (personal, licencias) e indirectos (servicios, admin)..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-award" style="color: #FF6F61;"></i> Selección de Herramienta de Calidad</label>
+                        <select style="margin-bottom: 6px;">
+                            <option value="">-- Selecciona una herramienta --</option>
+                            <option value="benchmarking">Benchmarking (Comparación externa con mejores prácticas)</option>
+                            <option value="experimentos">Diseño de Experimentos (Pruebas controladas)</option>
+                            <option value="auditoria">Auditorías de Calidad (Revisiones formales de procesos)</option>
+                        </select>
+                        <textarea rows="2" placeholder="Justifica su aplicación práctica al proyecto..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-users-cog" style="color: #00838F;"></i> Perfiles de Recursos Humanos e Integración</label>
+                        <textarea rows="3" placeholder="Define perfiles requeridos y estrategia de integración del equipo..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-shield-virus" style="color: #FF6F61;"></i> Gestión de Riesgos y Acciones Preventivas</label>
+                        <textarea rows="3" placeholder="Analiza principales riesgos e implementa acciones preventivas..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVIDAD 6 -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="title-text"><i class="fas fa-bullhorn" style="color: #00838F;"></i> Actividad 6: Comunicación, Seguimiento y Formalización</span>
+                    <span class="step-badge">Paso 6 de 7</span>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-desktop" style="color: #00838F;"></i> Estrategia de Presentación (Pitch al Inversionista)</label>
+                    <p class="subtext">Diseña la estrategia utilizando herramientas digitales atractivas (ej. Canva, PowerPoint, Prezi, Google Slides).</p>
+                    <textarea rows="3" placeholder="Describe la estructura de tu presentación, herramienta digital elegida y mensajes clave..."></textarea>
+                </div>
+
+                <p style="font-size: 13px; font-weight: 700; color: #006064; margin: 16px 0 8px 0;">Formatos Clave de Gobernanza y Seguimiento:</p>
+
+                <div class="grid-3">
+                    <div class="input-group">
+                        <label><i class="fas fa-comments" style="color: #00838F;"></i> 1. Plan y Matriz de Comunicaciones</label>
+                        <textarea rows="3" placeholder="Justifica canales, frecuencia y audiencias..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-exchange-alt" style="color: #FF6F61;"></i> 2. Plan de Gestión de Cambios</label>
+                        <textarea rows="3" placeholder="Justifica la metodología de solicitudes de cambio..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-file-invoice" style="color: #00838F;"></i> 3. Informe Periódico de Seguimiento</label>
+                        <textarea rows="3" placeholder="Justifica la estructura del reporte de avance..."></textarea>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top: 10px;">
+                    <label><i class="fas fa-file-contract" style="color: #FF6F61;"></i> Reflexión sobre el Contrato como Instrumento Jurídico de Cierre</label>
+                    <textarea rows="3" placeholder="Reflexiona sobre la importancia del contrato como instrumento formal de cierre y protección legal..."></textarea>
+                </div>
+            </div>
+
+            <!-- ACTIVIDAD 7 -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="title-text"><i class="fas fa-award" style="color: #FF6F61;"></i> Actividad 7: Cierre Reflexivo</span>
+                    <span class="step-badge">Paso 7 de 7</span>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-graduation-cap" style="color: #00838F;"></i> Síntesis de Principales Aprendizajes</label>
+                    <p class="subtext">Sintetiza los aprendizajes clave obtenidos a lo largo del desarrollo de la guía integradora.</p>
+                    <textarea rows="4" placeholder="Sintetiza tus conocimientos consolidados en gestión de alcance, tiempos, costos y equipo..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-puzzle-piece" style="color: #FF6F61;"></i> Evaluación Crítica de la Etapa más Compleja</label>
+                    <p class="subtext">Evalúa de manera crítica qué etapa de la gestión resultó más compleja de estructurar y por qué.</p>
+                    <textarea rows="4" placeholder="Analiza qué fase representó el mayor reto técnico o metodológico y justifica las razones..."></textarea>
+                </div>
+            </div>
+
+            <!-- BARRA DE ACCIONES Y BOTONES -->
+            <div class="actions-bar no-print">
+                <button type="button" class="btn-print" onclick="window.print()">
+                    <i class="fas fa-print"></i> Guardar PDF / Imprimir
+                </button>
+                <button type="button" class="btn-submit" onclick="submitForm()">
+                    <i class="fas fa-paper-plane"></i> Guardar y Enviar Proyecto Final
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div id="moodleModal" class="modal-overlay">
+    <div class="modal-card">
+        <div style="font-size: 48px; color: #00838F; margin-bottom: 12px;">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 style="margin: 0 0 8px 0; font-size: 20px; font-weight: 700; color: #0f172a;">¡Proyecto Final Registrado!</h3>
+        <p style="font-size: 13.5px; color: #64748b; margin-bottom: 22px;">Has completado exitosamente las 7 actividades de la Guía Práctica de Gestión. Puedes guardar una versión en PDF como respaldo de entrega.</p>
+        <button onclick="closeModal()" style="background: linear-gradient(135deg, #00838F, #FF6F61); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 14px;">Aceptar</button>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+        document.getElementById('moodleModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('moodleModal').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
